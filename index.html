@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f1e8">
+    <title>Mallo STT Live Showcase</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">MALLO · VOICE FIRST</p>
+        <h1>Mallo STT<br><span>Live Showcase</span></h1>
+        <p class="intro">마이크로 직접 말하고 현재 Mallo STT 모델의 전사 결과를 확인해 보세요.</p>
+        <div class="model-chip" aria-label="현재 모델">
+          <span class="chip-dot"></span>
+          Train65 · LR 2e-5 · 2 epochs
+        </div>
+      </header>
+
+      <section class="studio" aria-labelledby="studio-title">
+        <h2 id="studio-title" class="sr-only">음성 녹음 및 전사</h2>
+        <div id="statusPanel" class="status-panel" data-state="idle" aria-live="polite">
+          <span class="status-dot"></span>
+          <div>
+            <strong id="statusTitle">준비됨</strong>
+            <span id="statusDetail">버튼을 누르고 한국어로 말해 주세요</span>
+          </div>
+        </div>
+
+        <div class="recorder">
+          <div class="pulse-ring"></div>
+          <button id="recordButton" class="mic-button" type="button" aria-label="녹음 시작">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 15.5a3.5 3.5 0 0 0 3.5-3.5V6a3.5 3.5 0 1 0-7 0v6a3.5 3.5 0 0 0 3.5 3.5Z"/>
+              <path d="M5.5 11.5v.5a6.5 6.5 0 0 0 13 0v-.5M12 18.5V22M8.5 22h7"/>
+            </svg>
+          </button>
+          <p id="recordHint" class="record-hint">녹음 시작</p>
+          <time id="timer" class="timer" datetime="PT0S">00:00</time>
+        </div>
+
+        <div id="errorBox" class="error-box" role="alert" hidden></div>
+
+        <section id="resultPanel" class="result-panel" aria-labelledby="result-title" hidden>
+          <div class="result-heading">
+            <p class="eyebrow">TRANSCRIPTION</p>
+            <h2 id="result-title">인식 결과</h2>
+          </div>
+          <blockquote id="transcription">—</blockquote>
+          <dl class="metrics">
+            <div>
+              <dt>추론 시간</dt>
+              <dd id="inferenceLatency">—</dd>
+            </div>
+            <div>
+              <dt>음성 길이</dt>
+              <dd id="audioDuration">—</dd>
+            </div>
+            <div>
+              <dt>전체 응답</dt>
+              <dd id="roundTripLatency">—</dd>
+            </div>
+          </dl>
+        </section>
+      </section>
+
+      <footer>
+        <p>녹음은 전사를 위해 inference backend로 전송되며 이 frontend에는 저장되지 않습니다.</p>
+      </footer>
+    </main>
+  </body>
+</html>
