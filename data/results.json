@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-27T12:30:27.883301+00:00",
+  "model": "models/stt/final-train65-merged-bf16",
+  "device": "cpu",
+  "items": [
+    {
+      "filename": "stt-01-iced-americano-two-cups.wav",
+      "source_filename": "01-sample-01-simple-order.wav",
+      "display_name": "아이스 아메리카노 2잔 주문",
+      "audio_file": "audio/stt-01-iced-americano-two-cups.wav",
+      "reference": "아이스 아메리카노 두 잔 주세요.",
+      "transcript": "아이스 아메리카노 두 잔 주세요",
+      "comparison": "일치",
+      "inference_ms": 5501.045,
+      "audio_duration_s": 3.39,
+      "audio_format": {
+        "sample_rate_hz": 16000,
+        "channels": 1,
+        "subtype": "PCM_16"
+      }
+    },
+    {
+      "filename": "stt-02-hot-latte-takeout.wav",
+      "source_filename": "02-sample-02-takeout.wav",
+      "display_name": "따뜻한 카페라떼 포장 주문",
+      "audio_file": "audio/stt-02-hot-latte-takeout.wav",
+      "reference": "따뜻한 카페라떼 한 잔 포장할게요.",
+      "transcript": "따뜻한 카페라떼 한 잔 포장할게요",
+      "comparison": "일치",
+      "inference_ms": 5784.09,
+      "audio_duration_s": 4.06,
+      "audio_format": {
+        "sample_rate_hz": 16000,
+        "channels": 1,
+        "subtype": "PCM_16"
+      }
+    },
+    {
+      "filename": "stt-03-vanilla-latte-and-americano.wav",
+      "source_filename": "03-sample-03-multi-item.wav",
+      "display_name": "복수 메뉴 주문",
+      "audio_file": "audio/stt-03-vanilla-latte-and-americano.wav",
+      "reference": "바닐라라떼 세 잔하고 아메리카노 한 잔 주세요.",
+      "transcript": "바닐라 라떼 3잔하고 아메리카노 한잔 주세요",
+      "comparison": "일치",
+      "inference_ms": 5869.75,
+      "audio_duration_s": 4.42,
+      "audio_format": {
+        "sample_rate_hz": 16000,
+        "channels": 1,
+        "subtype": "PCM_16"
+      }
+    },
+    {
+      "filename": "stt-04-americano-extra-shot.wav",
+      "source_filename": "04-sample-04-option.wav",
+      "display_name": "샷 추가 옵션",
+      "audio_file": "audio/stt-04-americano-extra-shot.wav",
+      "reference": "아메리카노에 샷 하나 추가해 주세요.",
+      "transcript": "아메리카노에 샷 하나 추가해주세요",
+      "comparison": "일치",
+      "inference_ms": 5451.494,
+      "audio_duration_s": 3.42,
+      "audio_format": {
+        "sample_rate_hz": 16000,
+        "channels": 1,
+        "subtype": "PCM_16"
+      }
+    },
+    {
+      "filename": "stt-05-hesitant-iced-latte.wav",
+      "source_filename": "05-sample-05-natural.wav",
+      "display_name": "머뭇거리는 아이스 카페라떼 주문",
+      "audio_file": "audio/stt-05-hesitant-iced-latte.wav",
+      "reference": "어... 아이스 카페라떼 두 잔 주세요.",
+      "transcript": "아이스틸 카페 라떼 두 잔 주세요",
+      "comparison": "오류",
+      "inference_ms": 5622.052,
+      "audio_duration_s": 4.42,
+      "audio_format": {
+        "sample_rate_hz": 16000,
+        "channels": 1,
+        "subtype": "PCM_16"
+      }
+    }
+  ]
+}
