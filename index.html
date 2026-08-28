@@ -75,7 +75,7 @@
         <span class="section-tag">Showcase Overview</span>
         <h2 class="section-title">공개 청취 샘플 요약</h2>
         <p class="section-desc">
-          쇼케이스에 수록된 5개 대표 발화 음성의 판정 결과와 저장소 공인 검증 지표를 함께 확인합니다.
+          쇼케이스에 수록된 5개 대표 발화 음성의 판정 결과와 프로젝트 최종 도메인 평가 지표를 함께 확인합니다.
         </p>
       </div>
 
@@ -103,7 +103,7 @@
       </div>
 
       <p class="summary-footnote">
-        <strong>* 안내:</strong> 위 5건은 청취 비교를 위해 직접 녹음된 대표 쇼케이스 샘플 건수이며, 전체 모델 정확도가 아닙니다. 전체 모델의 공인 정량 성능(메뉴명 Recall 89.13%, CER 0.1095)은 506문장 도메인 평가셋을 기준으로 측정되었습니다.
+        <strong>* 안내:</strong> 위 5건은 청취 비교를 위해 직접 녹음된 대표 쇼케이스 샘플 건수이며, 전체 모델 정확도가 아닙니다. 전체 모델의 프로젝트 최종 정량 평가 결과(메뉴명 Recall 89.13%, CER 0.1095)는 Mallo 프로젝트 506문장 도메인 평가셋을 기준으로 측정되었습니다.
       </p>
     </section>
 
@@ -160,7 +160,7 @@
             <p class="pane-text"><strong>"아이스 아메리카노 두 잔 주세요"</strong></p>
             <div class="pane-meta">
               <span>Whisper Fine-tuned 추론</span>
-              <span>일치율 100%</span>
+              <span>주문 내용 일치</span>
             </div>
           </div>
         </div>
@@ -209,7 +209,7 @@
             <p class="pane-text"><strong>"따뜻한 카페라떼 한 잔 포장할게요"</strong></p>
             <div class="pane-meta">
               <span>Whisper Fine-tuned 추론</span>
-              <span>일치율 100%</span>
+              <span>주문 내용 일치</span>
             </div>
           </div>
         </div>
@@ -307,7 +307,7 @@
             <p class="pane-text"><strong>"아메리카노에 샷 하나 추가해주세요"</strong></p>
             <div class="pane-meta">
               <span>Whisper Fine-tuned 추론</span>
-              <span>일치율 100%</span>
+              <span>주문 내용 일치</span>
             </div>
           </div>
         </div>
@@ -364,7 +364,7 @@
         <div class="sample-note sample-note-error">
           <svg class="icon icon-sm" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <div>
-            <strong>오류 분석:</strong> 발화 시작부의 머뭇거림("어...") 간투사가 이어지는 "아이스"와 음향적으로 결합되어 "아이스틸"로 전사된 사례입니다. 실제 말로(Mallo) 키오스크 파이프라인에서는 NLU 후보 매칭 및 메뉴 사전 보정 레이어를 통해 유효한 메뉴("아이스 카페라떼")로 복구 처리됩니다.
+            <strong>오류 분석:</strong> 간투사가 포함된 자연 발화에서 "아이스 카페라떼" 일부가 "아이스틸 카페 라떼"로 오인식된 사례입니다. 후단 NLU와 Order Engine에서는 STT 결과를 기반으로 주문 명령을 구조화하고 메뉴·옵션 유효성을 검증합니다.
           </div>
         </div>
       </article>
