@@ -1,5 +1,425 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>말로 STT 최종 쇼케이스</title><style>body{max-width:900px;margin:32px auto;padding:0 16px;font:16px system-ui;background:#0b1120;color:#e2e8f0}article{margin:16px 0;padding:20px;background:#1e293b;border-radius:12px}h1{color:#38bdf8}h2{font-size:18px}audio{width:100%}dl{display:grid;grid-template-columns:120px 1fr;gap:8px}dt{color:#94a3b8}dd{margin:0;white-space:pre-wrap}.pass{color:#86efac;font-weight:700}.fail{color:#fca5a5;font-weight:700}</style><body><h1>말로 STT 최종 쇼케이스</h1><p>모델: <code>models/stt/final-train65-merged-bf16</code></p><p>직접 녹음한 WAV의 실제 발화와 전사를 비교한 독립 정적 산출물입니다.</p><article><h2>아이스 아메리카노 2잔 주문</h2><audio controls preload="metadata" src="audio/stt-01-iced-americano-two-cups.wav"></audio><dl><dt>실제 발화</dt><dd>아이스 아메리카노 두 잔 주세요.</dd><dt>STT 전사</dt><dd>아이스 아메리카노 두 잔 주세요</dd><dt>판정</dt><dd class="pass">일치</dd></dl></article>
-<article><h2>따뜻한 카페라떼 포장 주문</h2><audio controls preload="metadata" src="audio/stt-02-hot-latte-takeout.wav"></audio><dl><dt>실제 발화</dt><dd>따뜻한 카페라떼 한 잔 포장할게요.</dd><dt>STT 전사</dt><dd>따뜻한 카페라떼 한 잔 포장할게요</dd><dt>판정</dt><dd class="pass">일치</dd></dl></article>
-<article><h2>복수 메뉴 주문</h2><audio controls preload="metadata" src="audio/stt-03-vanilla-latte-and-americano.wav"></audio><dl><dt>실제 발화</dt><dd>바닐라라떼 세 잔하고 아메리카노 한 잔 주세요.</dd><dt>STT 전사</dt><dd>바닐라 라떼 3잔하고 아메리카노 한잔 주세요</dd><dt>판정</dt><dd class="pass">일치</dd></dl></article>
-<article><h2>샷 추가 옵션</h2><audio controls preload="metadata" src="audio/stt-04-americano-extra-shot.wav"></audio><dl><dt>실제 발화</dt><dd>아메리카노에 샷 하나 추가해 주세요.</dd><dt>STT 전사</dt><dd>아메리카노에 샷 하나 추가해주세요</dd><dt>판정</dt><dd class="pass">일치</dd></dl></article>
-<article><h2>머뭇거리는 아이스 카페라떼 주문</h2><audio controls preload="metadata" src="audio/stt-05-hesitant-iced-latte.wav"></audio><dl><dt>실제 발화</dt><dd>어... 아이스 카페라떼 두 잔 주세요.</dd><dt>STT 전사</dt><dd>아이스틸 카페 라떼 두 잔 주세요</dd><dt>판정</dt><dd class="fail">오류</dd></dl></article></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>말로(Mallo) STT 최종 쇼케이스</title>
+  <meta name="description" content="고령 사용자의 카페 주문 발화를 대상으로 실제 음성과 Whisper 기반 도메인 파인튜닝 STT 모델의 전사 결과를 비교 청취하는 기술 쇼케이스">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/favicon-192.png">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+  <meta name="theme-color" content="#1e3932">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="./styles/showcase.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="https://nanocode00.github.io/mallo-intro/" aria-label="말로 소개 홈으로 이동">
+        <span class="brand-mark">mallo</span>
+        <span class="brand-ko">말로</span>
+      </a>
+      <nav class="header-nav" aria-label="메인 네비게이션">
+        <a class="nav-link" href="https://nanocode00.github.io/mallo-intro/">
+          <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>소개 홈</span>
+        </a>
+        <a class="nav-link active" href="https://nanocode00.github.io/stt_showcase/" aria-current="page">
+          <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg>
+          <span>STT</span>
+        </a>
+        <a class="nav-link" href="https://nanocode00.github.io/tts_showcase/">
+          <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          <span>TTS</span>
+        </a>
+        <a class="nav-link nav-kiosk-btn" href="https://mallo-kiosk.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          <span>키오스크 체험 &#8599;</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-deco-a" aria-hidden="true"></div>
+    <div class="hero-deco-b" aria-hidden="true"></div>
+    <div class="container hero-content">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">
+          <svg class="icon icon-sm icon-gold" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Mallo · Speech Recognition
+        </span>
+        <span class="hero-badge-sub">STT Showcase</span>
+      </div>
+      <h1>말로 STT <strong>최종 쇼케이스</strong></h1>
+      <p class="hero-desc">
+        고령 사용자의 카페 음성 주문 발화를 대상으로, 직접 녹음한 음성과 <strong>Whisper 기반 최종 도메인 파인튜닝 STT 모델</strong>의 전사 결과를 직접 청취하고 비교할 수 있는 독립 기술 쇼케이스입니다.
+      </p>
+      <ul class="keyword-chips" aria-label="모델 및 환경 정보">
+        <li>모델: final-train65-merged-bf16</li>
+        <li>16kHz Mono WAV</li>
+        <li>100% Offline Static 배포</li>
+        <li>대표 발화 5건 청취 비교</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content container">
+    <!-- Showcase Overview Summary Stats -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-tag">Showcase Overview</span>
+        <h2 class="section-title">공개 청취 샘플 요약</h2>
+        <p class="section-desc">
+          쇼케이스에 수록된 5개 대표 발화 음성의 판정 결과와 저장소 공인 검증 지표를 함께 확인합니다.
+        </p>
+      </div>
+
+      <div class="stat-grid">
+        <article class="stat-card">
+          <p class="stat-value">5<span class="unit">건</span></p>
+          <p class="stat-label">공개 청취 샘플</p>
+          <p class="stat-sub">직접 녹음된 대표 음성 5종</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-value val-pass">4<span class="unit">건</span></p>
+          <p class="stat-label">판정 일치 (Pass)</p>
+          <p class="stat-sub">주문 의도 및 내용 정확 일치</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-value val-fail">1<span class="unit">건</span></p>
+          <p class="stat-label">오류 사례 (Fail)</p>
+          <p class="stat-sub">머뭇거림 간투사 음향 혼동</p>
+        </article>
+        <article class="stat-card stat-card-highlight">
+          <p class="stat-value val-gold">89.13<span class="unit">%</span></p>
+          <p class="stat-label">메뉴명 인식 Recall</p>
+          <p class="stat-sub">CER 0.1095 · 도메인 평가셋 506문장 실측</p>
+        </article>
+      </div>
+
+      <p class="summary-footnote">
+        <strong>* 안내:</strong> 위 5건은 청취 비교를 위해 직접 녹음된 대표 쇼케이스 샘플 건수이며, 전체 모델 정확도가 아닙니다. 전체 모델의 공인 정량 성능(메뉴명 Recall 89.13%, CER 0.1095)은 506문장 도메인 평가셋을 기준으로 측정되었습니다.
+      </p>
+    </section>
+
+    <!-- Sample Cards -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-tag">Samples</span>
+        <h2 class="section-title">음성 청취 및 전사 결과 비교</h2>
+        <p class="section-desc">
+          각 샘플의 오디오 플레이어를 재생하여 실제 발화 음성과 STT 모델 전사 결과를 직접 대조해보세요.
+        </p>
+      </div>
+
+      <!-- Case 01 -->
+      <article class="sample-card">
+        <div class="sample-header">
+          <div class="sample-title-group">
+            <span class="case-badge">Case 01</span>
+            <h3 class="sample-title">아이스 아메리카노 2잔 주문</h3>
+            <span class="meta-pill">단일 메뉴 · 기본 수량 주문</span>
+          </div>
+          <div class="status-badge status-pass">
+            <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>판정 일치</span>
+          </div>
+        </div>
+
+        <div class="audio-player-box">
+          <div class="audio-box-header">
+            <span class="audio-label">
+              <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              녹음 음성 재생 (16kHz Mono)
+            </span>
+            <span class="audio-meta-text">재생 시간 3.39초 · CPU 추론 5,501.0ms</span>
+          </div>
+          <audio controls preload="metadata" src="audio/stt-01-iced-americano-two-cups.wav"></audio>
+        </div>
+
+        <div class="comparison-grid comparison-2col">
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge">실제 발화 (Reference)</span>
+            </div>
+            <p class="pane-text">"아이스 아메리카노 두 잔 주세요."</p>
+            <div class="pane-meta">
+              <span>원본 음성 발화 기준</span>
+              <span>16,000 Hz</span>
+            </div>
+          </div>
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge pane-badge-pass">STT 전사 (Transcript)</span>
+            </div>
+            <p class="pane-text"><strong>"아이스 아메리카노 두 잔 주세요"</strong></p>
+            <div class="pane-meta">
+              <span>Whisper Fine-tuned 추론</span>
+              <span>일치율 100%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 02 -->
+      <article class="sample-card">
+        <div class="sample-header">
+          <div class="sample-title-group">
+            <span class="case-badge">Case 02</span>
+            <h3 class="sample-title">따뜻한 카페라떼 포장 주문</h3>
+            <span class="meta-pill">온도 옵션 · 포장 여부 포함</span>
+          </div>
+          <div class="status-badge status-pass">
+            <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>판정 일치</span>
+          </div>
+        </div>
+
+        <div class="audio-player-box">
+          <div class="audio-box-header">
+            <span class="audio-label">
+              <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              녹음 음성 재생 (16kHz Mono)
+            </span>
+            <span class="audio-meta-text">재생 시간 4.06초 · CPU 추론 5,784.1ms</span>
+          </div>
+          <audio controls preload="metadata" src="audio/stt-02-hot-latte-takeout.wav"></audio>
+        </div>
+
+        <div class="comparison-grid comparison-2col">
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge">실제 발화 (Reference)</span>
+            </div>
+            <p class="pane-text">"따뜻한 카페라떼 한 잔 포장할게요."</p>
+            <div class="pane-meta">
+              <span>원본 음성 발화 기준</span>
+              <span>16,000 Hz</span>
+            </div>
+          </div>
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge pane-badge-pass">STT 전사 (Transcript)</span>
+            </div>
+            <p class="pane-text"><strong>"따뜻한 카페라떼 한 잔 포장할게요"</strong></p>
+            <div class="pane-meta">
+              <span>Whisper Fine-tuned 추론</span>
+              <span>일치율 100%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 03 -->
+      <article class="sample-card">
+        <div class="sample-header">
+          <div class="sample-title-group">
+            <span class="case-badge">Case 03</span>
+            <h3 class="sample-title">복수 메뉴 주문</h3>
+            <span class="meta-pill">다중 메뉴 · 복합 수량 발화</span>
+          </div>
+          <div class="status-badge status-pass">
+            <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>판정 일치</span>
+          </div>
+        </div>
+
+        <div class="audio-player-box">
+          <div class="audio-box-header">
+            <span class="audio-label">
+              <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              녹음 음성 재생 (16kHz Mono)
+            </span>
+            <span class="audio-meta-text">재생 시간 4.42초 · CPU 추론 5,869.8ms</span>
+          </div>
+          <audio controls preload="metadata" src="audio/stt-03-vanilla-latte-and-americano.wav"></audio>
+        </div>
+
+        <div class="comparison-grid comparison-2col">
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge">실제 발화 (Reference)</span>
+            </div>
+            <p class="pane-text">"바닐라라떼 세 잔하고 아메리카노 한 잔 주세요."</p>
+            <div class="pane-meta">
+              <span>원본 음성 발화 기준</span>
+              <span>16,000 Hz</span>
+            </div>
+          </div>
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge pane-badge-pass">STT 전사 (Transcript)</span>
+            </div>
+            <p class="pane-text"><strong>"바닐라 라떼 3잔하고 아메리카노 한잔 주세요"</strong></p>
+            <div class="pane-meta">
+              <span>Whisper Fine-tuned 추론</span>
+              <span>수사·띄어쓰기 정규화 일치</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 04 -->
+      <article class="sample-card">
+        <div class="sample-header">
+          <div class="sample-title-group">
+            <span class="case-badge">Case 04</span>
+            <h3 class="sample-title">샷 추가 옵션</h3>
+            <span class="meta-pill">단일 메뉴 · 세부 옵션 추가</span>
+          </div>
+          <div class="status-badge status-pass">
+            <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>판정 일치</span>
+          </div>
+        </div>
+
+        <div class="audio-player-box">
+          <div class="audio-box-header">
+            <span class="audio-label">
+              <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              녹음 음성 재생 (16kHz Mono)
+            </span>
+            <span class="audio-meta-text">재생 시간 3.42초 · CPU 추론 5,451.5ms</span>
+          </div>
+          <audio controls preload="metadata" src="audio/stt-04-americano-extra-shot.wav"></audio>
+        </div>
+
+        <div class="comparison-grid comparison-2col">
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge">실제 발화 (Reference)</span>
+            </div>
+            <p class="pane-text">"아메리카노에 샷 하나 추가해 주세요."</p>
+            <div class="pane-meta">
+              <span>원본 음성 발화 기준</span>
+              <span>16,000 Hz</span>
+            </div>
+          </div>
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge pane-badge-pass">STT 전사 (Transcript)</span>
+            </div>
+            <p class="pane-text"><strong>"아메리카노에 샷 하나 추가해주세요"</strong></p>
+            <div class="pane-meta">
+              <span>Whisper Fine-tuned 추론</span>
+              <span>일치율 100%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 05 (Error Case) -->
+      <article class="sample-card">
+        <div class="sample-header">
+          <div class="sample-title-group">
+            <span class="case-badge">Case 05</span>
+            <h3 class="sample-title">머뭇거리는 아이스 카페라떼 주문</h3>
+            <span class="meta-pill">자연 발화 · 간투사 포함</span>
+          </div>
+          <div class="status-badge status-fail">
+            <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>오류 사례 (음향 혼동)</span>
+          </div>
+        </div>
+
+        <div class="audio-player-box">
+          <div class="audio-box-header">
+            <span class="audio-label">
+              <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              녹음 음성 재생 (16kHz Mono)
+            </span>
+            <span class="audio-meta-text">재생 시간 4.42초 · CPU 추론 5,622.1ms</span>
+          </div>
+          <audio controls preload="metadata" src="audio/stt-05-hesitant-iced-latte.wav"></audio>
+        </div>
+
+        <div class="comparison-grid comparison-2col">
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge">실제 발화 (Reference)</span>
+            </div>
+            <p class="pane-text">"어... 아이스 카페라떼 두 잔 주세요."</p>
+            <div class="pane-meta">
+              <span>원본 음성 발화 기준</span>
+              <span>16,000 Hz</span>
+            </div>
+          </div>
+          <div class="comparison-pane">
+            <div class="pane-header">
+              <span class="pane-badge pane-badge-fail">STT 전사 (Transcript)</span>
+            </div>
+            <p class="pane-text"><strong>"<mark class="mismatch-mark">아이스틸</mark> 카페 라떼 두 잔 주세요"</strong></p>
+            <div class="pane-meta">
+              <span>음향 혼동 발생</span>
+              <span>Case 05 불일치</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sample-note sample-note-error">
+          <svg class="icon icon-sm" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>오류 분석:</strong> 발화 시작부의 머뭇거림("어...") 간투사가 이어지는 "아이스"와 음향적으로 결합되어 "아이스틸"로 전사된 사례입니다. 실제 말로(Mallo) 키오스크 파이프라인에서는 NLU 후보 매칭 및 메뉴 사전 보정 레이어를 통해 유효한 메뉴("아이스 카페라떼")로 복구 처리됩니다.
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Technical Info Section -->
+    <section class="info-section">
+      <h3>
+        <svg class="icon icon-md icon-green" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        쇼케이스 환경 및 판정 기준 안내
+      </h3>
+      <p>
+        <strong>1. 완전 독립 정적 배포:</strong> 본 쇼케이스는 외부 API, 마이크 권한 요청, 백엔드 서버 없이 GitHub Pages에서 100% 정적으로 동작하도록 제작되었습니다. 모든 음성은 상대 경로의 WAV 파일로 제공됩니다.
+      </p>
+      <p>
+        <strong>2. 판정 기준 (Comparison):</strong> 수사 표기 차이(예: '두 잔' vs '3잔')나 띄어쓰기 차이는 실제 키오스크 시스템의 NLU 및 Order Engine에서 동일한 정규화 엔티티로 매핑되므로 주문 의도 일치로 판정합니다.
+      </p>
+      <p>
+        <strong>3. 재현 메타데이터:</strong> 전체 5개 음성의 정밀한 샘플레이트, CPU 인퍼런스 지연시간(ms), 전사 데이터는 <a href="./data/results.json" target="_blank" rel="noopener noreferrer" style="color:var(--green);font-weight:700">data/results.json &#8599;</a> 파일에 기록되어 있습니다.
+      </p>
+    </section>
+
+    <!-- Cross-Project CTA Banner -->
+    <section class="cta-banner">
+      <h2>말로(Mallo)의 다른 기술도 <strong>확인해보세요</strong></h2>
+      <p>
+        친절체 음성 합성과 고령자 맞춤 3단계 발화 속도 정책을 제공하는 TTS 쇼케이스와 실제 키오스크 데모를 바로 체험할 수 있습니다.
+      </p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="https://nanocode00.github.io/tts_showcase/">
+          <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          TTS 쇼케이스 살펴보기
+        </a>
+        <a class="btn btn-outline-white" href="https://nanocode00.github.io/mallo-intro/">
+          <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          말로 프로젝트 소개 보기
+        </a>
+        <a class="btn btn-outline-white" href="https://mallo-kiosk.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-sm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          실제 키오스크 체험하기 &#8599;
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        AI Human 7기 · D조 프로젝트 <strong>말로(Mallo)</strong> STT Showcase
+      </p>
+      <p style="margin-top:0.3rem;font-size:0.8rem;color:var(--ink-muted)">
+        본 쇼케이스의 음성 샘플은 공개 사용이 확인된 직접 녹음 데이터입니다.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
